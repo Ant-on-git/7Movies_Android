@@ -41,4 +41,23 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Retrofit (работа с интернетом)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+
+    // RxJava (работа с потоками)
+    implementation(libs.rxJava)
+    implementation(libs.rxJava.android)
+
+    // адаптер для работы retrofit с RxJava
+    implementation(libs.retrofit.adapter.rxjava)
+
+    // Room (бд)
+    implementation(libs.room.runtime)
+    implementation(libs.room.compiler)
+    implementation(libs.room.rxjava3)
+
+    // Glide    (изображения)
+    implementation(libs.glide)
 }
