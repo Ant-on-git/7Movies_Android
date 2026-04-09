@@ -1,3 +1,12 @@
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val apiKey = localProperties.getProperty("KINOPOISKUNOFF_API_KEY") ?: ""
+
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -16,6 +25,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "KINOPOISKUNOFF_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -30,6 +41,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -55,7 +70,7 @@ dependencies {
 
     // Room (бд)
     implementation(libs.room.runtime)
-    implementation(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
     implementation(libs.room.rxjava3)
 
     // Glide    (изображения)

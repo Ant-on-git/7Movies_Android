@@ -18,5 +18,44 @@ Retrofit    - (работа с интернетом)     - гугл - retrofit a
 
 
 
-******  Api кинопоиска - оттуда будем брать фильмы
+ Api кинопоиска - оттуда будем брать фильмы
 https://kinopoiskapiunofficial.tech/
+
+
+***************** Скрываем токен от гита
+при регистрации выдается токен. т.к. проект диблирую на гитхаб, токен нужно спрятать.
+пихаем токен в local.properties (он автоматом в .gitignore)
+
+идем в build.gradle, добавляем
+1)
+    import java.util.Properties
+
+    val localProperties = Properties().apply {
+        load(rootProject.file("local.properties").inputStream())
+    }
+
+    val apiKey = localProperties.getProperty("KINOPOISKUNOFF_API_KEY") ?: ""
+
+2)
+    buildConfigField("String", "KINOPOISKUNOFF_API_KEY", "\"$apiKey\"")
+в
+    android {
+        ...
+        defaultConfig {
+            ...
+            buildConfigField("String", "KINOPOISKUNOFF_API_KEY", "\"$apiKey\"")
+        }
+3)
+        buildFeatures {
+            buildConfig = true
+        }
+в
+    android {
+        ...
+        buildFeatures {
+            buildConfig = true
+        }
+    }
+
+использовать:
+    String API_KEY = BuildConfig.KINOPOISKUNOFF_API_KEY;

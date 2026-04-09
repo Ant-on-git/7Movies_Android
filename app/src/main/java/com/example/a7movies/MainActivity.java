@@ -1,6 +1,7 @@
 package com.example.a7movies;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +9,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 public class MainActivity extends AppCompatActivity {
+    String API_KEY = BuildConfig.KINOPOISKUNOFF_API_KEY;        // токен для запросов на типа "кинопоиск"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +23,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
+        Log.d("API_KEY", API_KEY);
+        Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
     }
 }
