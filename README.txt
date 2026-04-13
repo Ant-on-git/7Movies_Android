@@ -139,11 +139,13 @@ https://kinopoiskapiunofficial.tech/
 
 ******************************      Настраиваем работу с интернетом (Retrofit)
 
-
 *******     1. Разрешение на использование интернета
 AndroidManifest.xml     ->      <uses-permission android:name="android.permission.INTERNET" />
 *******    2. создаем интерфейс ApiService.java
 *******    3. создаем класс для реализации интерфейса ApiFactory.java
+
+
+***********      создаем MainViewModel (паттерн view - viewmodel - model)
 
 
 

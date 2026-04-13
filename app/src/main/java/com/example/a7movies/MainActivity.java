@@ -8,12 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
+    private MainViewModel mainViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +27,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        ApiFactory.getApiService().loadMovies()
-                                .subscribeOn( Schedulers.io() )
-                                .subscribeOn(AndroidSchedulers.mainThread() )
-                                .subscribe(
-                                        serverMoviesResponse -> {
-                                            Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
-                                            Log.d("API_KEY", serverMoviesResponse.toString());
-                                            Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
-                                        }, throwable -> {
-                                            Log.d("*******************", "*******************");
-                                            Log.d("API_KEY", throwable.toString());
-                                            Log.d("*******************", "*******************");
-                                        }
-                                );
+        mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
 
+        mainViewModel.getMovies().observe(
+                this,
+                movies -> {
+                    Log.d("!!!!!!", movies.toString());
+                }
+        );
 
+        mainViewModel.loadMovies(1);
 
     }
 }
