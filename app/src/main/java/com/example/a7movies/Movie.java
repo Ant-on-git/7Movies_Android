@@ -59,4 +59,20 @@ public class Movie {
     public String getPosterUrl() { return posterUrl; }
 
     public String getPosterUrlPreview() { return posterUrlPreview; }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                    "kinopoiskId=" + kinopoiskId +
+                    ", nameRu='" + nameRu + '\'' +
+                    ", nameEn='" + nameEn + '\'' +
+                    ", countries=" + countries +
+                    ", genres=" + genres +
+                    ", ratingKinopoisk=" + ratingKinopoisk +
+                    ", ratingImdb=" + ratingImdb +
+                    ", year=" + year +
+                    ", posterUrl='" + posterUrl + '\'' +
+                    ", posterUrlPreview='" + posterUrlPreview + '\'' +
+                '}';
+    }
 }

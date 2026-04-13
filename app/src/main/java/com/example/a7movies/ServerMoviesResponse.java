@@ -24,4 +24,13 @@ public class ServerMoviesResponse {
     public int getTotalPages() { return totalPages; }
 
     public List<Movie> getMovies() { return movies; }
+
+    @Override
+    public String toString() {
+        return "ServerMoviesResponse{" +
+                    "total=" + total +
+                    ", totalPages=" + totalPages +
+                    ", movies=" + movies +
+                '}';
+    }
 }

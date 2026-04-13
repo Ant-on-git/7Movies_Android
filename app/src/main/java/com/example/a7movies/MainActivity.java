@@ -9,9 +9,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
-    String API_KEY = BuildConfig.KINOPOISKUNOFF_API_KEY;        // токен для запросов на типа "кинопоиск"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
-        Log.d("API_KEY", API_KEY);
-        Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
+        ApiFactory.getApiService().loadMovies()
+                                .subscribeOn( Schedulers.io() )
+                                .subscribeOn(AndroidSchedulers.mainThread() )
+                                .subscribe(
+                                        serverMoviesResponse -> {
+                                            Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
+                                            Log.d("API_KEY", serverMoviesResponse.toString());
+                                            Log.d("!!!!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!!!!!!");
+                                        }, throwable -> {
+                                            Log.d("*******************", "*******************");
+                                            Log.d("API_KEY", throwable.toString());
+                                            Log.d("*******************", "*******************");
+                                        }
+                                );
+
+
+
     }
 }

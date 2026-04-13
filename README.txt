@@ -67,7 +67,7 @@ https://kinopoiskapiunofficial.tech/
 
 адрес запроса
     https://kinopoiskapiunofficial.tech/api/v2.2/films
-ответ типа
+формат ответа
     {
           "total": 7,
           "totalPages": 1,
@@ -113,6 +113,7 @@ https://kinopoiskapiunofficial.tech/
 
 
 
+
 ******************************      ОБФУСКАЦИЯ
 
 когда приложение выкладывается на плей маркет, оно проходит обфускацию:
@@ -131,4 +132,19 @@ https://kinopoiskapiunofficial.tech/
     @SerializedName("items")
     private List<Movie> movies;
 ретрофит воспринимает его как поле  "items"
+
+
+
+
+
+******************************      Настраиваем работу с интернетом (Retrofit)
+
+
+*******     1. Разрешение на использование интернета
+AndroidManifest.xml     ->      <uses-permission android:name="android.permission.INTERNET" />
+*******    2. создаем интерфейс ApiService.java
+*******    3. создаем класс для реализации интерфейса ApiFactory.java
+
+
+
 
