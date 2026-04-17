@@ -9,11 +9,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
+    private RecyclerView recyclerViewMovies;
+    private MoviesAdapter moviesAdapter;
+
 
 
     @Override
@@ -27,12 +31,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
+        moviesAdapter = new MoviesAdapter();
+        recyclerViewMovies = findViewById(R.id.moviesRecyclerView);
+        recyclerViewMovies.setAdapter( moviesAdapter );
+        recyclerViewMovies.setLayoutManager(                         // LayoutManager - как располагать карточки внутри recyclerView
+                new GridLayoutManager( this, 2 )    // GridLayoutManager - таблицей, 2 - колонки
+        );
 
+        mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
         mainViewModel.getMovies().observe(
                 this,
                 movies -> {
                     Log.d("!!!!!!", movies.toString());
+                    moviesAdapter.setMovies( movies );
                 }
         );
 

@@ -1,0 +1,79 @@
+// адаптер для recykclerView
+
+package com.example.a7movies;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieViewHolder >{
+    private List<Movie> movies = new ArrayList<>();
+
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+        notifyDataSetChanged(); // встроенный метод (RecyclerView.Adapter) для обновления данных в адаптере
+    }
+
+
+    @NonNull
+    @Override
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // onCreateViewHolder вызывается только тогда, когда системе нужно создать новую ячейку (когда старых не хватило для заполнения экрана)
+        // из макета делаем View
+        View movieItem_viewFromXml = LayoutInflater
+                                            .from( parent.getContext() )    // parent — это и есть ваш RecyclerView. Раз RecyclerView уже лежит на каком-то экране (Activity), у него точно есть правильный контекст.  Использовать parent.getContext() — самый безопасный способ получить доступ к ресурсам и темам именно того экрана, где будет список.
+                                            .inflate(
+                                                    R.layout.movie_item,
+                                                    parent,                 // чтобы знать ширину карточки
+                                                    false                   // чтобы карточка не «прилипла» к списку раньше времени.
+                                            );
+
+        return new MovieViewHolder( movieItem_viewFromXml );
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+        // вызывается для каждого отображаемого элемента
+        Movie currentMuvie = movies.get( position );
+
+        Glide.with( holder.itemView )     // Когда ты создал MovieViewHolder, эта вьюшка сохранилась внутри него под именем itemView. itemView — это вся твоя карточка целиком (весь прямоугольник со всеми потрохами).  Поскольку любая View «знает», в каком контексте она находится, Glide говорит: «О, дай мне itemView, я сам вытащу из неё нужный контекст и нарисую картинку».
+                .load( currentMuvie.getPosterUrl() )
+                .into( holder.posterImageView );
+
+        holder.ratingTextView.setText( Float.toString( currentMuvie.getRatingKinopoisk() ) );
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return movies.size();
+    }
+
+
+
+    static class MovieViewHolder extends RecyclerView.ViewHolder {
+        //      Задача ViewHolder - Однажды найти view в макете, в которые надо вставлять данные
+        // Потом в onBindViewHolder обращаемся напрямую к holder.textViewNote,
+        // а не делаем findViewById каждый раз. Сильно экономит ресурсы, особенно при длинных списках.
+
+        private final ImageView posterImageView;
+        private final TextView ratingTextView;
+        public MovieViewHolder(@NonNull View itemView) {   // itemView - тот вью, что создается из макета (noteItem_viewFromXML в onCreateViewHolder)
+            super(itemView);
+            posterImageView = itemView.findViewById(R.id.posterImageView);
+            ratingTextView = itemView.findViewById(R.id.ratingTextView);
+        }
+    }
+}
