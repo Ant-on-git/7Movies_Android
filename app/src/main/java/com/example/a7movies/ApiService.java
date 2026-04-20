@@ -7,7 +7,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("films?order=RATING&type=FILM&ratingFrom=6&ratingTo=10&yearFrom=2020&yearTo=3000")
+    @GET("films?order=NUM_VOTE&type=FILM&ratingFrom=5&ratingTo=10&yearFrom=2020&yearTo=3000")
     @Headers({
             "X-API-KEY: " + BuildConfig.KINOPOISKUNOFF_API_KEY,
             "Content-Type: application/json"

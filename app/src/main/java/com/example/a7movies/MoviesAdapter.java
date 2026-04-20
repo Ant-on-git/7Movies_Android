@@ -2,6 +2,7 @@
 
 package com.example.a7movies;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -52,7 +54,17 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
                 .load( currentMuvie.getPosterUrl() )
                 .into( holder.posterImageView );
 
-        holder.ratingTextView.setText( Float.toString( currentMuvie.getRatingKinopoisk() ) );
+        float rating = currentMuvie.getRatingKinopoisk();
+        int ratingBackroundCircleID;
+        if      ( rating > 7.5 ) { ratingBackroundCircleID = R.drawable.circle_green; }
+        else if ( rating > 6.5 ) { ratingBackroundCircleID = R.drawable.circle_orange; }
+        else                     { ratingBackroundCircleID = R.drawable.circle_red; }
+
+        // получаем объект (сам круг с нужным цветом) - нужно перевести id в drawable
+        Drawable backgroundCircle = ContextCompat.getDrawable( holder.itemView.getContext(), ratingBackroundCircleID );
+
+        holder.ratingTextView.setBackground( backgroundCircle );
+        holder.ratingTextView.setText( String.valueOf(rating) );
     }
 
 
@@ -70,8 +82,8 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
 
         private final ImageView posterImageView;
         private final TextView ratingTextView;
-        public MovieViewHolder(@NonNull View itemView) {   // itemView - тот вью, что создается из макета (noteItem_viewFromXML в onCreateViewHolder)
-            super(itemView);
+        public MovieViewHolder(@NonNull View itemView) {    // itemView - тот вью, что создается из макета (noteItem_viewFromXML в onCreateViewHolder)
+            super(itemView);                                // itemView = movie_item
             posterImageView = itemView.findViewById(R.id.posterImageView);
             ratingTextView = itemView.findViewById(R.id.ratingTextView);
         }
