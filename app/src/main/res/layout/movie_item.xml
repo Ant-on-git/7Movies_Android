@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
+            android:minHeight="250dp"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
         <!--     android:adjustViewBounds="true"    - растянуть изображение по ширине  -->

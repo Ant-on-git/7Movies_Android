@@ -206,5 +206,31 @@ app:cardUseCompatPadding="true": Важная штука, чтобы тени н
 
 
 
+******************************      дозагрузка фильмов
+в ответе приходит 20 фильмов. - страница 1
+Когда докрутил до конца, нужно отправить новый запрос и добавить фильмы - след. страница
+
+Определить что польз долистал до конца экрана можно в  onBindViewHolder
+сравнить текущий номер с размером всего списка..
+Но стартовать загрузку в адаптере не стоит, т.к. это нарушение архитектуры приложения
+Вызывать загрузку нужно из активити
+Для этого нужно сделать в адаптере интерфейс
+и в активити засунуть туда колбэк с кодом для занрузки след. страницы
+
+       private OnMoviesListEndListener onMoviesListEndListener;
+
+       interface OnMoviesListEndListener { void onMoviesListEnd(); }
+
+       public void setOnMoviesListEndListener(OnMoviesListEndListener onMoviesListEndListener) {
+           this.onMoviesListEndListener = onMoviesListEndListener;
+       }
+
+а в onBindViewHolder определяем что прокрутили до конца и там вызываем этот колбэк
+
+
+
+
+
+
 
 

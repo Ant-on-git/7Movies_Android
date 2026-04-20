@@ -3,6 +3,7 @@
 package com.example.a7movies;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,12 +66,25 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
 
         holder.ratingTextView.setBackground( backgroundCircle );
         holder.ratingTextView.setText( String.valueOf(rating) );
+
+        // определяем что прокрутили до конца и вызываем колбэк (установленный из активити) для дозагрузки след страницы
+        if (position == movies.size()-1) {
+            onMoviesListEndListener.onMoviesListEnd();
+        }
     }
 
 
     @Override
     public int getItemCount() {
         return movies.size();
+    }
+
+
+    // интерфейс - чтобы установить в метод onMoviesListEnd из активити колбэк (код) для дозагрузки следующей страницы при прокрутке списка фильмов до конца
+    private OnMoviesListEndListener onMoviesListEndListener;
+    interface OnMoviesListEndListener { void onMoviesListEnd(); }
+    public void setOnMoviesListEndListener(OnMoviesListEndListener onMoviesListEndListener) {
+        this.onMoviesListEndListener = onMoviesListEndListener;
     }
 
 

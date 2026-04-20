@@ -31,6 +31,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
+        mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
+        mainViewModel.getMovies().observe(
+                this,
+                movies -> {
+                    moviesAdapter.setMovies( movies );
+                }
+        );
+        mainViewModel.loadMovies();
+
+
         moviesAdapter = new MoviesAdapter();
         recyclerViewMovies = findViewById(R.id.moviesRecyclerView);
         recyclerViewMovies.setAdapter( moviesAdapter );
@@ -38,16 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 new GridLayoutManager( this, 2 )    // GridLayoutManager - таблицей, 2 - колонки
         );
 
-        mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
-        mainViewModel.getMovies().observe(
-                this,
-                movies -> {
-                    Log.d("!!!!!!", movies.toString());
-                    moviesAdapter.setMovies( movies );
-                }
-        );
-
-        mainViewModel.loadMovies(1);
+        // устанавливаем в адаптер колбэк - дозагрузка фильмов при прокрутке до конца (вызывается в onBindViewHolder)
+        moviesAdapter.setOnMoviesListEndListener(new MoviesAdapter.OnMoviesListEndListener() {
+            @Override
+            public void onMoviesListEnd() {
+                mainViewModel.loadMovies();
+            }
+        });
 
     }
 }
