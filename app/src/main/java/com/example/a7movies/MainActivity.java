@@ -2,6 +2,8 @@ package com.example.a7movies;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
     private RecyclerView recyclerViewMovies;
     private MoviesAdapter moviesAdapter;
+    private ProgressBar progressbar;
 
 
 
@@ -35,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
         mainViewModel.getMovies().observe(
                 this,
-                movies -> {
-                    moviesAdapter.setMovies( movies );
-                }
+                movies -> moviesAdapter.setMovies( movies )
         );
-        mainViewModel.loadMovies();
 
 
         moviesAdapter = new MoviesAdapter();
@@ -50,12 +50,18 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // устанавливаем в адаптер колбэк - дозагрузка фильмов при прокрутке до конца (вызывается в onBindViewHolder)
-        moviesAdapter.setOnMoviesListEndListener(new MoviesAdapter.OnMoviesListEndListener() {
-            @Override
-            public void onMoviesListEnd() {
-                mainViewModel.loadMovies();
-            }
-        });
+        moviesAdapter.setOnMoviesListEndListener( () ->  mainViewModel.loadMovies() );
+
+
+        progressbar = findViewById(R.id.loadingProgressBar);
+        // отображение прогресс бара
+        mainViewModel.getIsLoading().observe(
+                this,
+                isLoading -> {
+                    if ( isLoading ) { progressbar.setVisibility( View.VISIBLE ); }
+                    else             { progressbar.setVisibility( View.GONE ); }
+                }
+        );
 
     }
 }

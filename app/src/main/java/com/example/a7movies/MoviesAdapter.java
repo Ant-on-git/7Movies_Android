@@ -68,7 +68,7 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
         holder.ratingTextView.setText( String.valueOf(rating) );
 
         // определяем что прокрутили до конца и вызываем колбэк (установленный из активити) для дозагрузки след страницы
-        if (position == movies.size()-1) {
+        if (position == movies.size()-5) {
             onMoviesListEndListener.onMoviesListEnd();
         }
     }
