@@ -2,7 +2,9 @@ package com.example.a7movies;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
     @SerializedName("genre")
     private String genre;
 

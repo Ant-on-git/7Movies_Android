@@ -1,5 +1,6 @@
 package com.example.a7movies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
         // устанавливаем в адаптер колбэк - дозагрузка фильмов при прокрутке до конца (вызывается в onBindViewHolder)
         moviesAdapter.setOnMoviesListEndListener( () ->  mainViewModel.loadMovies() );
+        // колбэк - вызов экрана с детальной информацией о фильме
+        moviesAdapter.setOnMovieClickListener(
+                movie ->  {
+                    Intent intent = MovieDetailActivity.newIntent(MainActivity.this, movie);
+                    startActivity(intent);
+                }
+        );
+
 
 
         progressbar = findViewById(R.id.loadingProgressBar);
@@ -62,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     else             { progressbar.setVisibility( View.GONE ); }
                 }
         );
+
+
 
     }
 }

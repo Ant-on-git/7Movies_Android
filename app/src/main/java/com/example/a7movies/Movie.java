@@ -2,9 +2,12 @@ package com.example.a7movies;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Serializable {
+    // implements Serializable - чтоб объекты класса можно было переводить в байты (дальше передать параметром или сохранить в файл)
+    // @SerializedName("kinopoiskId")   - для обфускации. подробнее в readme + связывает имя ключа JSON с удобным названием переменной
     @SerializedName("kinopoiskId")
     private int kinopoiskId;
     @SerializedName("nameRu")

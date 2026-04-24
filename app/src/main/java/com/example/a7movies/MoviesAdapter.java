@@ -3,7 +3,6 @@
 package com.example.a7movies;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +70,15 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
         if (position == movies.size()-5) {
             onMoviesListEndListener.onMoviesListEnd();
         }
+
+        // слушать клика по фильму - открыть экран с детальной инф о фильме
+        holder.itemView.setOnClickListener(
+                view -> {
+                    if (onMovieClickListener != null) {   // проверка на null на случай если забудем или не захотим определять слушатель.
+                        onMovieClickListener.onMovieClick( currentMuvie );
+                    }
+                }
+        );
     }
 
 
@@ -87,6 +95,13 @@ public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieView
         this.onMoviesListEndListener = onMoviesListEndListener;
     }
 
+
+    // интерфейс для реализации слушателя клика на карточку фильма (открыть окно с детальной инф)
+    private OnMovieClickListener onMovieClickListener;
+    interface OnMovieClickListener{ void onMovieClick(Movie movie); }
+    public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
+        this.onMovieClickListener = onMovieClickListener;
+    }
 
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {
