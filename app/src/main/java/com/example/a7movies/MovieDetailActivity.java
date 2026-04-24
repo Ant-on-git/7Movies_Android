@@ -3,6 +3,7 @@ package com.example.a7movies;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 
@@ -39,9 +41,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         // .. = (Movie) getIntent().getSerializableExtra("movie");  - переводим объект serializable в тип Movie
 
         Glide.with(this).load(movie.getPosterUrl()).into(movieDetail_poster);
-        movieDetail_title.setText(movie.getNameRu());
-        movieDetail_year.setText(String.valueOf(movie.getYear()));
-        movieDetail_description.setText("здесь могла быть ваша реклама");
+        movieDetail_title.setText( movie.getNameRu() );
+        movieDetail_year.setText( String.valueOf( movie.getYear() ) );
+
+
+        // получаем детальную инф о фильме
+        MovieDetailViewModel movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
+        movieDetailViewModel.getMovieDetails().observe(
+                this,
+                movieFacts -> {
+                    movieDetail_description.setText( Html.fromHtml( movieFacts, Html.FROM_HTML_MODE_COMPACT ) );
+                }
+        );
+        movieDetailViewModel.loadMovieFacts( movie.getKinopoiskId() );
+
     }
 
 
