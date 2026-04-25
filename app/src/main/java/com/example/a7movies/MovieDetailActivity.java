@@ -22,6 +22,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView movieDetail_title;
     private TextView movieDetail_year;
     private TextView movieDetail_description;
+    MovieDetailViewModel movieDetailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
 
         // получаем детальную инф о фильме
-        MovieDetailViewModel movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
+        movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         movieDetailViewModel.getMovieDetails().observe(
                 this,
                 movieFacts -> {

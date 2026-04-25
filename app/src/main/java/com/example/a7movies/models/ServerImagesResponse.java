@@ -11,7 +11,7 @@ public class ServerImagesResponse {
     @SerializedName("totalPages")
     private String totalPages;
     @SerializedName("items")
-    private List<Image>imagesList = new ArrayList<>();
+    private List<Image>imagesList;
 
 
     public ServerImagesResponse(String total, String totalPages, List<Image> videosList) {
@@ -28,16 +28,16 @@ public class ServerImagesResponse {
         return totalPages;
     }
 
-    public List<Image> getVideosList() {
+    public List<Image> getImagesList() {
         return imagesList;
     }
 
     @Override
     public String toString() {
         return "ServerImagesResponse{" +
-                "total='" + total + '\'' +
-                ", totalPages='" + totalPages + '\'' +
-                ", videosList=" + imagesList +
+                    "total='" + total + '\'' +
+                    ", totalPages='" + totalPages + '\'' +
+                    ", videosList=" + imagesList +
                 '}';
     }
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.a7movies.models.MovieFact;
 import com.example.a7movies.models.Image;
+import com.example.a7movies.models.ServerImagesResponse;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MovieDetailViewModel  extends AndroidViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final MutableLiveData<String> movieDetailsLiveData = new MutableLiveData<>();
-    private final MutableLiveData<List<Image>>videosList = new MutableLiveData<>();
+    private final MutableLiveData<List<Image>>imagesList = new MutableLiveData<>();
 
 
     public MovieDetailViewModel(@NonNull Application application) {
@@ -32,8 +33,8 @@ public class MovieDetailViewModel  extends AndroidViewModel {
         return movieDetailsLiveData;
     }
 
-    public LiveData<List<Image>> getVideosList() {
-        return videosList;
+    public LiveData<List<Image>> getImagesList() {
+        return imagesList;
     }
 
     public void loadMovieFacts(int kinopoiskId) {
@@ -66,9 +67,13 @@ public class MovieDetailViewModel  extends AndroidViewModel {
         Disposable disposable = ApiFactory.getApiService().loadImages( kinopoiskId )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
+                .map( serverImagesResponse -> serverImagesResponse.getImagesList() )
+                // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать
+                // можно еще так        ServerImagesResponse::getImagesList
                 .subscribe(
-                        serverImagesResponse -> {
-                            Log.d("MINE", serverImagesResponse.toString());
+                        serverImagesList -> {
+                            Log.d("MINE", serverImagesList.toString());
+                            imagesList.setValue( serverImagesList );
                         }, throwable -> {
                             Log.d("MINE", throwable.toString());
                         }
