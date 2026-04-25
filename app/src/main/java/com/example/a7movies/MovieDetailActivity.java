@@ -13,6 +13,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.a7movies.models.Movie;
@@ -23,6 +26,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView movieDetail_year;
     private TextView movieDetail_description;
     MovieDetailViewModel movieDetailViewModel;
+    MovieDetailImagesAdapter imagesAdapter;
+    RecyclerView recyclerViewImages;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         initViews();
 
-        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        Movie movie = (Movie) getIntent().getSerializableExtra("movie");    // получаем объект Movie, переданный при открытии этой активити
         // .. = getIntent().getSerializableExtra("movie");          - получим объект типа serializable
         // .. = (Movie) getIntent().getSerializableExtra("movie");  - переводим объект serializable в тип Movie
 
-        Glide.with(this).load(movie.getPosterUrl()).into(movieDetail_poster);
+        Glide.with(this).load( movie.getPosterUrl() ).into( movieDetail_poster );
         movieDetail_title.setText( movie.getNameRu() );
         movieDetail_year.setText( String.valueOf( movie.getYear() ) );
 
@@ -51,13 +58,23 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         movieDetailViewModel.getMovieDetails().observe(
                 this,
-                movieFacts -> {
-                    movieDetail_description.setText( Html.fromHtml( movieFacts, Html.FROM_HTML_MODE_COMPACT ) );
-                }
+                movieFacts -> movieDetail_description.setText( Html.fromHtml( movieFacts, Html.FROM_HTML_MODE_COMPACT ) )
         );
         movieDetailViewModel.loadMovieFacts( movie.getKinopoiskId() );
-        movieDetailViewModel.loadImages( movie.getKinopoiskId() );
 
+
+        imagesAdapter = new MovieDetailImagesAdapter();
+        recyclerViewImages = findViewById(R.id.imagesRecyclerView);
+        recyclerViewImages.setAdapter( imagesAdapter );
+        recyclerViewImages.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)    // "карусель"
+        );
+
+        movieDetailViewModel.getImagesList().observe(
+                this,
+                imagesList -> imagesAdapter.setImages( imagesList )
+        );
+        movieDetailViewModel.loadImages( movie.getKinopoiskId() );
     }
 
 

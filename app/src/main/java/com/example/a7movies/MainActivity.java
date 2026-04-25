@@ -2,7 +2,6 @@ package com.example.a7movies;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
     private RecyclerView recyclerViewMovies;
-    private MoviesAdapter moviesAdapter;
+    private MainMoviesAdapter mainMoviesAdapter;
     private ProgressBar progressbar;
 
 
@@ -39,21 +38,21 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
         mainViewModel.getMovies().observe(
                 this,
-                movies -> moviesAdapter.setMovies( movies )
+                movies -> mainMoviesAdapter.setMovies( movies )
         );
 
 
-        moviesAdapter = new MoviesAdapter();
-        recyclerViewMovies = findViewById(R.id.moviesRecyclerView);
-        recyclerViewMovies.setAdapter( moviesAdapter );
+        mainMoviesAdapter = new MainMoviesAdapter();
+        recyclerViewMovies = findViewById( R.id.moviesRecyclerView );
+        recyclerViewMovies.setAdapter( mainMoviesAdapter );
         recyclerViewMovies.setLayoutManager(                         // LayoutManager - как располагать карточки внутри recyclerView
                 new GridLayoutManager( this, 2 )    // GridLayoutManager - таблицей, 2 - колонки
         );
 
         // устанавливаем в адаптер колбэк - дозагрузка фильмов при прокрутке до конца (вызывается в onBindViewHolder)
-        moviesAdapter.setOnMoviesListEndListener( () ->  mainViewModel.loadMovies() );
+        mainMoviesAdapter.setOnMoviesListEndListener( () ->  mainViewModel.loadMovies() );
         // колбэк - вызов экрана с детальной информацией о фильме
-        moviesAdapter.setOnMovieClickListener(
+        mainMoviesAdapter.setOnMovieClickListener(
                 movie ->  {
                     Intent intent = MovieDetailActivity.newIntent(MainActivity.this, movie);
                     startActivity(intent);

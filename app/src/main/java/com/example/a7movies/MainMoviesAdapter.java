@@ -19,7 +19,7 @@ import com.example.a7movies.models.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter< MoviesAdapter.MovieViewHolder >{
+public class MainMoviesAdapter extends RecyclerView.Adapter< MainMoviesAdapter.MovieViewHolder >{
     private List<Movie> movies = new ArrayList<>();
 
 
