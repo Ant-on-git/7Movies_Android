@@ -1,5 +1,9 @@
 package com.example.a7movies;
 
+import com.example.a7movies.models.ServerMovieFactsResponse;
+import com.example.a7movies.models.ServerMoviesResponse;
+import com.example.a7movies.models.ServerImagesResponse;
+
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -13,7 +17,7 @@ public interface ApiService {
             "X-API-KEY: " + BuildConfig.KINOPOISKUNOFF_API_KEY,
             "Content-Type: application/json"
     })
-    Single<ServerMoviesResponse> loadMovies( @Query("page") int page );
+    Single<ServerMoviesResponse> loadMovies(@Query("page") int page );
     // @Query("page") int page   :    передаем параметром номер страницы и он встанет в url в виде &page=1
 
 
@@ -23,6 +27,14 @@ public interface ApiService {
             "X-API-KEY: " + BuildConfig.KINOPOISKUNOFF_API_KEY,
             "Content-Type: application/json"
     })
-    Single<ServerMovieFactsResponse> loadMovieFacts( @Path("id") int id );
+    Single<ServerMovieFactsResponse> loadMovieFacts(@Path("id") int id );
+
+
+    @GET("films/{id}/images")
+    @Headers({
+            "X-API-KEY: " + BuildConfig.KINOPOISKUNOFF_API_KEY,
+            "Content-Type: application/json"
+    })
+    Single<ServerImagesResponse> loadImages(@Path("id") int id );
 
 }

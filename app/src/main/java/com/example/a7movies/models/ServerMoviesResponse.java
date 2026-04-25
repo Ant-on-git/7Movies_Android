@@ -1,4 +1,4 @@
-package com.example.a7movies;
+package com.example.a7movies.models;
 
 import com.google.gson.annotations.SerializedName;
 

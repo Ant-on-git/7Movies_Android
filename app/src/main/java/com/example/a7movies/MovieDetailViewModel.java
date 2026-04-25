@@ -8,7 +8,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
+import com.example.a7movies.models.MovieFact;
+import com.example.a7movies.models.Image;
+
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -19,6 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MovieDetailViewModel  extends AndroidViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final MutableLiveData<String> movieDetailsLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Image>>videosList = new MutableLiveData<>();
 
 
     public MovieDetailViewModel(@NonNull Application application) {
@@ -27,6 +30,10 @@ public class MovieDetailViewModel  extends AndroidViewModel {
 
     public LiveData<String> getMovieDetails() {
         return movieDetailsLiveData;
+    }
+
+    public LiveData<List<Image>> getVideosList() {
+        return videosList;
     }
 
     public void loadMovieFacts(int kinopoiskId) {
@@ -48,9 +55,22 @@ public class MovieDetailViewModel  extends AndroidViewModel {
                             movieDetailsLiveData.setValue(stringBuilder.toString());
 
                         }, throwable -> {
-                            Log.d("MINE", "**************************************");
                             Log.d("MINE", throwable.toString());
-                            Log.d("MINE", "**************************************");
+                        }
+                );
+        compositeDisposable.add(disposable);
+    }
+
+
+    public void loadImages(int kinopoiskId) {
+        Disposable disposable = ApiFactory.getApiService().loadImages( kinopoiskId )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe(
+                        serverImagesResponse -> {
+                            Log.d("MINE", serverImagesResponse.toString());
+                        }, throwable -> {
+                            Log.d("MINE", throwable.toString());
                         }
                 );
         compositeDisposable.add(disposable);

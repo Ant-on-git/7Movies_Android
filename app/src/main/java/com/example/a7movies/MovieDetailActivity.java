@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.a7movies.models.Movie;
 
 public class MovieDetailActivity extends AppCompatActivity {
     private ImageView movieDetail_poster;
@@ -54,6 +55,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 }
         );
         movieDetailViewModel.loadMovieFacts( movie.getKinopoiskId() );
+        movieDetailViewModel.loadImages( movie.getKinopoiskId() );
 
     }
 
