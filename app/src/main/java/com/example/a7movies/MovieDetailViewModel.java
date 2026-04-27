@@ -85,13 +85,12 @@ public class MovieDetailViewModel  extends AndroidViewModel {
         Disposable disposable = ApiFactory.getApiService().loadReviews( kinopoiskId )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                // .map( serverReviewsResponse -> serverReviewsResponse.getReviews() )
+                 .map( serverReviewsResponse -> serverReviewsResponse.getReviews() )
                 // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать //  можно еще так        ServerImagesResponse::getImagesList
                 .subscribe(
                         serverReviewsList -> {
-//                            Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
-//                            reviewsList.setValue( serverReviewsList );
-                              Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
+                            Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
+                            reviewsList.setValue( serverReviewsList );
                         }, throwable -> {
                             Log.d("MINE", "loadReviews ERROR" + throwable.toString());
                         }
