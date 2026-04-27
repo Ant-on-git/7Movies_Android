@@ -3,6 +3,7 @@ package com.example.a7movies;
 import com.example.a7movies.models.ServerMovieFactsResponse;
 import com.example.a7movies.models.ServerMoviesResponse;
 import com.example.a7movies.models.ServerImagesResponse;
+import com.example.a7movies.models.ServerReviewsResponse;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
@@ -36,5 +37,13 @@ public interface ApiService {
             "Content-Type: application/json"
     })
     Single<ServerImagesResponse> loadImages(@Path("id") int id );
+
+
+    @GET("films/{id}/reviews")
+    @Headers({
+            "X-API-KEY: " + BuildConfig.KINOPOISKUNOFF_API_KEY,
+            "Content-Type: application/json"
+    })
+    Single<ServerReviewsResponse> loadReviews(@Path("id") int id );
 
 }

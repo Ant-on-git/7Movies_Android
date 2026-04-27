@@ -75,6 +75,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                 imagesList -> imagesAdapter.setImages( imagesList )
         );
         movieDetailViewModel.loadImages( movie.getKinopoiskId() );
+
+        movieDetailViewModel.loadReviews( movie.getKinopoiskId() );
     }
 
 
