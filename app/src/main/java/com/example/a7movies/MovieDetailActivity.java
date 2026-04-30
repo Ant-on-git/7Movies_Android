@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     MovieDetailViewModel movieDetailViewModel;
     MovieDetailImagesAdapter imagesAdapter;
     RecyclerView recyclerViewImages;
+    MovieDetailReviewsAdapter reviewsAdapter;
+    RecyclerView recyclerViewReviews;
 
 
 
@@ -76,6 +79,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         );
         movieDetailViewModel.loadImages( movie.getKinopoiskId() );
 
+
+        reviewsAdapter = new MovieDetailReviewsAdapter();
+        recyclerViewReviews = findViewById(R.id.reviewsRecyclerView);
+        recyclerViewReviews.setAdapter( reviewsAdapter );
+        recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
+
+        movieDetailViewModel.getReviewsList().observe(
+                this,
+                reviewsList -> {
+                    reviewsAdapter.setReviews( reviewsList );
+                }
+
+        );
         movieDetailViewModel.loadReviews( movie.getKinopoiskId() );
     }
 

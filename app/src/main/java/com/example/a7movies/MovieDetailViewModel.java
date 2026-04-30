@@ -71,7 +71,7 @@ public class MovieDetailViewModel  extends AndroidViewModel {
                 // можно еще так        ServerImagesResponse::getImagesList
                 .subscribe(
                         serverImagesList -> {
-                            Log.d("MINE", "loadImages" + serverImagesList.toString());
+                            // Log.d("MINE", "loadImages" + serverImagesList.toString());
                             imagesList.setValue( serverImagesList );
                         }, throwable -> {
                             Log.d("MINE", "loadImages" + throwable.toString());
@@ -89,7 +89,7 @@ public class MovieDetailViewModel  extends AndroidViewModel {
                 // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать //  можно еще так        ServerImagesResponse::getImagesList
                 .subscribe(
                         serverReviewsList -> {
-                            Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
+                            // Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
                             reviewsList.setValue( serverReviewsList );
                         }, throwable -> {
                             Log.d("MINE", "loadReviews ERROR" + throwable.toString());
