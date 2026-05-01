@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,12 +13,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.a7movies.database.MovieDao;
+import com.example.a7movies.database.MovieDatabase;
 import com.example.a7movies.models.Movie;
+
+
 
 public class MovieDetailActivity extends AppCompatActivity {
     private ImageView movieDetail_poster;
@@ -93,6 +95,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         );
         movieDetailViewModel.loadReviews( movie.getKinopoiskId() );
+
+
+        MovieDao movieDao = MovieDatabase.getInstance( getApplication() ).movieDao();
     }
 
 

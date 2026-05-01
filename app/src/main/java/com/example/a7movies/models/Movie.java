@@ -1,23 +1,23 @@
 package com.example.a7movies.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
+@Entity(tableName = "favorite_movies")
 public class Movie implements Serializable {
     // implements Serializable - чтоб объекты класса можно было переводить в байты (дальше передать параметром или сохранить в файл)
     // @SerializedName("kinopoiskId")   - для обфускации. подробнее в readme + связывает имя ключа JSON с удобным названием переменной
+    @PrimaryKey
     @SerializedName("kinopoiskId")
     private int kinopoiskId;
     @SerializedName("nameRu")
     private String nameRu;
     @SerializedName("nameEn")
     private String nameEn;
-    @SerializedName("countries")
-    private List<Country> countries;
-    @SerializedName("genres")
-    private List<Genre> genres;
     @SerializedName("ratingKinopoisk")
     private float ratingKinopoisk;
     @SerializedName("ratingImdb")
@@ -30,12 +30,10 @@ public class Movie implements Serializable {
     private String posterUrlPreview;
 
 
-    public Movie(int kinopoiskId, String nameRu, String nameEn, List<Country> countries, List<Genre> genres, float ratingKinopoisk, float ratingImdb, int year, String posterUrl, String posterUrlPreview) {
+    public Movie(int kinopoiskId, String nameRu, String nameEn, float ratingKinopoisk, float ratingImdb, int year, String posterUrl, String posterUrlPreview) {
         this.kinopoiskId = kinopoiskId;
         this.nameRu = nameRu;
         this.nameEn = nameEn;
-        this.countries = countries;
-        this.genres = genres;
         this.ratingKinopoisk = ratingKinopoisk;
         this.ratingImdb = ratingImdb;
         this.year = year;
@@ -48,10 +46,6 @@ public class Movie implements Serializable {
     public String getNameRu() { return nameRu; }
 
     public String getNameEn() { return nameEn; }
-
-    public List<Country> getCountries() { return countries; }
-
-    public List<Genre> getGenres() { return genres; }
 
     public float getRatingKinopoisk() { return ratingKinopoisk; }
 
@@ -69,8 +63,6 @@ public class Movie implements Serializable {
                     "kinopoiskId=" + kinopoiskId +
                     ", nameRu='" + nameRu + '\'' +
                     ", nameEn='" + nameEn + '\'' +
-                    ", countries=" + countries +
-                    ", genres=" + genres +
                     ", ratingKinopoisk=" + ratingKinopoisk +
                     ", ratingImdb=" + ratingImdb +
                     ", year=" + year +
