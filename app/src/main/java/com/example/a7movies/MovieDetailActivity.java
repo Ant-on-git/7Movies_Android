@@ -2,6 +2,7 @@ package com.example.a7movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,8 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.a7movies.database.MovieDao;
-import com.example.a7movies.database.MovieDatabase;
 import com.example.a7movies.models.Movie;
 
 
@@ -33,6 +33,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     RecyclerView recyclerViewImages;
     MovieDetailReviewsAdapter reviewsAdapter;
     RecyclerView recyclerViewReviews;
+    ImageView favoritesButton;
 
 
 
@@ -97,7 +98,28 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieDetailViewModel.loadReviews( movie.getKinopoiskId() );
 
 
-        MovieDao movieDao = MovieDatabase.getInstance( getApplication() ).movieDao();
+        // Favorites button
+        // Drawable — это абстракция «чего-то, что можно нарисовать». Это может быть обычная картинка (png/jpg), вектор или просто заливка цветом.
+        // ContextCompat.getDrawable ищет файл в ресурсах (картинку).
+        // android.R.drawable.something — это системные ресурсы Android.
+        Drawable starOff = ContextCompat.getDrawable(MovieDetailActivity.this, android.R.drawable.star_big_off);    // достаем серую звезду из ресурсов андроида
+        Drawable starOn = ContextCompat.getDrawable(MovieDetailActivity.this, android.R.drawable.star_big_on);      // достаем "активированную" звезду
+        movieDetailViewModel.getFavotiyrMovie(movie.getKinopoiskId()).observe(
+                this,
+                movieFromFavorites -> {
+                    if (movieFromFavorites == null) {               // если фильм в избранном - он и прилетит в movieFromFavorites. если нет = null
+                        favoritesButton.setImageDrawable(starOff);      // показываем серую звезду
+                        favoritesButton.setOnClickListener(             // вешаем слушатель
+                                view -> movieDetailViewModel.addToFavorites( movie )    // на добавление в избранное
+                        );
+                    } else {
+                        favoritesButton.setImageDrawable(starOn);       // показываем "активированную" звезду
+                        favoritesButton.setOnClickListener(             // вешаем слушатель
+                                view -> movieDetailViewModel.removeFromFavorites( movie.getKinopoiskId() )  // на удаление их избранного
+                        );
+                    }
+                }
+        );
     }
 
 
@@ -106,6 +128,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieDetail_title       = findViewById(R.id.movieDetail_title);
         movieDetail_year        = findViewById(R.id.movieDetail_year);
         movieDetail_description = findViewById(R.id.movieDetail_description);
+        favoritesButton         = findViewById(R.id.movieDetail_favoriteImageView);
     }
 
 
