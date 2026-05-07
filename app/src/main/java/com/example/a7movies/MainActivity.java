@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+//        Intent intent1 = FavoritesActivity.newIntent(this);
+//        startActivity(intent1);
 
         mainViewModel = new ViewModelProvider(this).get( MainViewModel.class );
         mainViewModel.getMovies().observe(

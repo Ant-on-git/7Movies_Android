@@ -51,59 +51,59 @@ public class MovieDetailViewModel  extends AndroidViewModel {
         if (movieDetailsLiveData.getValue() != null) return;
 
         Disposable disposable = ApiFactory.getApiService().loadMovieFacts(kinopoiskId)
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe(
-                        serverMovieFactsResponse -> {
-                            List<MovieFact> factList = serverMovieFactsResponse.getFactList();
-                            StringBuilder stringBuilder = new StringBuilder();
-                            // при склейке множества срок в целях оптимизации лучше использовать StringBuilder
-                            for (MovieFact fact : factList) {
-                                stringBuilder.append( fact.getText() ).append( "<br><br>" );
-                            }
+                                                .subscribeOn( Schedulers.io() )
+                                                .observeOn( AndroidSchedulers.mainThread() )
+                                                .subscribe(
+                                                        serverMovieFactsResponse -> {
+                                                            List<MovieFact> factList = serverMovieFactsResponse.getFactList();
+                                                            StringBuilder stringBuilder = new StringBuilder();
+                                                            // при склейке множества срок в целях оптимизации лучше использовать StringBuilder
+                                                            for (MovieFact fact : factList) {
+                                                                stringBuilder.append( fact.getText() ).append( "<br><br>" );
+                                                            }
 
-                            movieDetailsLiveData.setValue(stringBuilder.toString());
-                        }, throwable -> {
-                            Log.d("MINE", "loadMovieFacts" + throwable.toString());
-                        }
-                );
+                                                            movieDetailsLiveData.setValue(stringBuilder.toString());
+                                                        }, throwable -> {
+                                                            Log.d("MINE", "loadMovieFacts" + throwable.toString());
+                                                        }
+                                                );
         compositeDisposable.add(disposable);
     }
 
 
     public void loadImages(int kinopoiskId) {
         Disposable disposable = ApiFactory.getApiService().loadImages( kinopoiskId )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .map( serverImagesResponse -> serverImagesResponse.getImagesList() )
-                // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать
-                // можно еще так        ServerImagesResponse::getImagesList
-                .subscribe(
-                        serverImagesList -> {
-                            // Log.d("MINE", "loadImages" + serverImagesList.toString());
-                            imagesList.setValue( serverImagesList );
-                        }, throwable -> {
-                            Log.d("MINE", "loadImages" + throwable.toString());
-                        }
-                );
+                                                .subscribeOn( Schedulers.io() )
+                                                .observeOn( AndroidSchedulers.mainThread() )
+                                                .map( serverImagesResponse -> serverImagesResponse.getImagesList() )
+                                                // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать
+                                                // можно еще так        ServerImagesResponse::getImagesList
+                                                .subscribe(
+                                                        serverImagesList -> {
+                                                            // Log.d("MINE", "loadImages" + serverImagesList.toString());
+                                                            imagesList.setValue( serverImagesList );
+                                                        }, throwable -> {
+                                                            Log.d("MINE", "loadImages" + throwable.toString());
+                                                        }
+                                                );
         compositeDisposable.add(disposable);
     }
 
 
     public void loadReviews(int kinopoiskId) {
         Disposable disposable = ApiFactory.getApiService().loadReviews( kinopoiskId )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                 .map( serverReviewsResponse -> serverReviewsResponse.getReviews() )
-                // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать //  можно еще так        ServerImagesResponse::getImagesList
-                .subscribe(
-                        serverReviewsList -> {
-                            // Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
-                            reviewsList.setValue( serverReviewsList );
-                        }, throwable -> {
-                            Log.d("MINE", "loadReviews ERROR" + throwable.toString());
-                        }
-                );
+                                                .subscribeOn( Schedulers.io() )
+                                                .observeOn( AndroidSchedulers.mainThread() )
+                                                 .map( serverReviewsResponse -> serverReviewsResponse.getReviews() )
+                                                // в оператор .map() прилетает объект типа ServerImagesResponse. достаем из него список картинок. Это новый способ для примера как можно делать //  можно еще так        ServerImagesResponse::getImagesList
+                                                .subscribe(
+                                                        serverReviewsList -> {
+                                                            // Log.d("MINE", "loadReviews SUCCESS" + serverReviewsList.toString());
+                                                            reviewsList.setValue( serverReviewsList );
+                                                        }, throwable -> {
+                                                            Log.d("MINE", "loadReviews ERROR" + throwable.toString());
+                                                        }
+                                                );
         compositeDisposable.add(disposable);
     }
 
