@@ -355,6 +355,48 @@ PS, вообще это не от андроида, а от java
 
 
 
+******************************      Меню
+
+для добавления меню для какого л экрана нужно в папке res создать для него свою папку.
+В ней будут лежать все файлы меню
+
+    res  - new - android resource directory - type menu
+
+    menu - new - menu resource file
+
+для отображения меню, в нужной активити надо переопределить метод
+    onCreateOptionsMenu
+
+далее нужно:
+
+    1. получить экз. класса MenuInflater
+        Для этого можно использовать метод      getMenuInflater()
+        Этот метод возвращает экз. класса MenuInflater.
+        У этого экземпляра нужно вызвать метод   .inflate()
+        и передать 2 параметра:
+            - id менюхи, которую нужно отобразить
+            - объект типа Menu (он прилетает параметром в метод   onCreateOptionsMenu
+
+    2. Вернуть значение типа Boolean - нужно показывать меню (true) или нет (false)
+
+
+чтобы отобразился бар идём
+    app-->res-->values-->themes и в файле themes.xml и themes.xml(night)
+
+меняем строку
+    <style name="Base.Theme.Movies" parent="Theme.Material3.DayNight.NoActionBar">
+на
+    <style name="Base.Theme.Movies" parent="Theme.Material3.DayNight">
+
+
+чтоб задать действия при нажатии на пункты меню, надо переопределить метод
+    onOptionsItemSelected
+при клике на пункт меню, тот элемент, который был нажат, прилетает в качестве параметра
+
+
+
+
+
 
 
 
